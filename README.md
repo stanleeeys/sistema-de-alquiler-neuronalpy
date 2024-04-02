@@ -1,1 +1,0 @@
-# sistema-de-alquiler-neuronalpy

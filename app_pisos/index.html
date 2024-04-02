@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alquiler San Salvador</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #b9babb;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 30px;
+            margin-top: 50px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+        h4 {
+            color: #3498db;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        button {
+            margin-top: 20px;
+        }
+        #resultado {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h4 class="text-center">Alquiler San Salvador</h4>
+
+                <div class="card shadow">
+                    <div class="card-body">
+                        <label for="m2">M<sup>2</sup></label>
+                        <input type="number" class="form-control mb-3" id="m2">
+
+                        <label for="hab">Nº de habitaciones</label>
+                        <input type="number" class="form-control mb-3" id="hab">
+
+                        <label for="planta">Nº de planta</label>
+                        <input type="number" class="form-control mb-3" id="planta">
+
+                        <label for="ascensor">Ascensor</label>
+                        <select id="ascensor" class="form-control mb-3">
+                            <option disabled selected>Elige una opción...</option>
+                            <option value="0">No</option>
+                            <option value="1">Sí</option>
+                        </select>
+
+                        <label for="ext">Exterior</label>
+                        <select id="ext" class="form-control mb-3">
+                            <option disabled selected>Elige una opción...</option>
+                            <option value="0">No</option>
+                            <option value="1">Sí</option>
+                        </select>
+
+                        <label for="est">Estado</label>
+                        <select id="est" class="form-control mb-3">
+                            <option disabled selected>Elige una opción...</option>
+                            <option value="0">No rehabilitado</option>
+                            <option value="1">Rehabilitado</option>
+                            <option value="2">Nuevo</option>
+                        </select>
+
+                        <label for="cent">Céntrico</label>
+                        <select id="cent" class="form-control mb-3">
+                            <option disabled selected>Elige una opción...</option>
+                            <option value="0">No</option>
+                            <option value="1">Sí</option>
+                        </select>
+
+                        <div class="text-center">
+                            <button class="btn btn-primary" type="button" id="btn">Calcular precio</button>
+                            <h5 id="resultado"></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+
+    <script>
+
+        var modelo = null;
+        //Cargamos el modelo entrenado
+        (async() =>{
+            console.log("Cargando el modelo...");
+            modelo = await tf.loadLayersModel("model.json");
+            console.log("Modelo cargado!");
+        })();
+
+        const btn = document.getElementById("btn");
+
+        btn.onclick = () =>{
+            var m2 = document.getElementById('m2').value;
+            var hab = document.getElementById('hab').value;
+            var planta = document.getElementById('planta').value;
+            var ascensor = document.getElementById('ascensor').value;
+            var ext = document.getElementById('ext').value;
+            var est = document.getElementById('est').value;
+            var cent = document.getElementById('cent').value;
+
+            if (modelo != null) {
+                var tensor = tf.tensor2d([[0, parseInt(m2), parseInt(hab), parseInt(planta), parseInt(ascensor), parseInt(ext), parseInt(est), parseInt(cent)]])
+                var prediccion = modelo.predict(tensor).dataSync();
+                prediccion = Math.round(prediccion, 2)
+
+                if (prediccion < 1000) {
+                    window.location.href = "soyapangoCity.html?precio=" + prediccion;
+                } else if (prediccion > 1000) {
+                    window.location.href = "soyapangoCity.html?precio=" + prediccion;
+                } else {
+                    document.getElementById("resultado").innerHTML = "Precio: " + prediccion + " $ al mes";
+                }
+            } else {
+                document.getElementById("resultado").innerHTML = "No se puede ejecutar, hay un problema";
+            }
+        }
+
+            </script>
+    
+</body>
+</html>
+
+

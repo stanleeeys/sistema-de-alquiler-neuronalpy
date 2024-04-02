@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colonia San Benito</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #b9babb; /* Color de fondo suave */
+            color: #030303; /* Color del texto */
+        }
+        
+
+        .container {
+            background-color: #b9babb; /* Color de fondo */
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        .img-fluid {
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .img-fluid:hover {
+            transform: scale(1.05);
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .card-text {
+            font-size: 18px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center">Colonia San Benito</h2>
+        <p class="text-center">En esta colonia está ubicada la famosa Zona Rosa en San Salvador, que es conocida por el gran desarrollo arquitectónico con el que cuenta y por la variedad de proyectos inmobiliarios que prometen un mayor desarrollo en la Colonia San Benito. Invertir en esta zona exclusiva le asegurará contar con grandes ganancias, pues al estar llena de restaurantes, centros corporativos, cafés, centros comerciales, colegios, universidades, supermercados y demás, siempre existirán personas interesadas en rentar o comprar una propiedad en este sector. Además, es una zona muy segura y limpia en la que se puede vivir en un ambiente relajado y contar con un ritmo de vida tranquilo.</p>
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="Image/img-1.png" class="img-fluid" alt="Imagen de referencia 1">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Casa vista panorámica</h5>
+                        <p class="card-text text-center">Disfruta de las hermosas vistas desde esta casa moderna.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="Image/Captura de pantalla 2024-04-01 215003.png" class="img-fluid" alt="Imagen de referencia 3">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Casa moderna</h5>
+                        <p class="card-text text-center">Una casa elegante y moderna que te sorprenderá.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="Image/img-3.png" class="img-fluid" alt="Imagen de referencia 2">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Apartamento lujosos</h5>
+                        <p class="card-text text-center">Descubre la comodidad y el lujo en estos apartamentos exclusivos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <h4 class="text-center">Precio: $<span id="precio-mes"></span> al mes</h4>
+                <p class="text-center">Espaciosa casa en la Zona Rosa con todas las comodidades necesarias.</p>
+            </div>
+        </div>
+        <div class="text-center mt-5">
+            <a href="index.html" class="btn btn-primary">Volver</a>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript para obtener el precio de la URL y mostrarlo en el elemento con el id "precio-mes"
+        const urlParams = new URLSearchParams(window.location.search);
+        const precio = urlParams.get('precio');
+        document.getElementById("precio-mes").innerText = precio;
+    </script>
+</body>
+</html>
+
