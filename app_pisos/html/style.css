@@ -1,0 +1,63 @@
+/* Estilos globales */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f4f8; /* Color de fondo más claro */
+    color: #333; /* Color de texto */
+}
+
+/* Contenedor principal */
+.container {
+    background-color: #ffffff; /* Fondo blanco */
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+    margin-top: 50px;
+}
+
+/* Tarjetas */
+.card {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8); /* Sombra para darle profundidad */
+    margin-bottom: 20px; /* Espacio entre tarjetas */
+}
+
+/* Estilos de imagen para poder asignar el tamaño de las tarjetas y queden del mismo tamaño */
+.img-fluid {
+    width: 300px; /* Tamaño fijo */
+    height: 200px; /* Tamaño fijo */
+    object-fit: cover; /* Ajustar la imagen para cubrir el contenedor sin deformarla */
+    display: block;
+    margin: auto; /* Centrar horizontalmente */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+/* Efecto de hover sobre la imagen */
+.img-fluid:hover {
+    transform: scale(1.05) rotate(-2deg); /* Pequeña rotación para un efecto más dinámico */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Sombra para dar un efecto de elevación mejor */
+}
+
+/* Títulos */
+.card-title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* Textos */
+.card-text {
+    font-size: 16px;
+}
+
+/* Botones */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Transición suave */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
