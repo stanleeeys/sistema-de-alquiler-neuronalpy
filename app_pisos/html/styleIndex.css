@@ -1,0 +1,55 @@
+body {
+    background: url('https://i0.wp.com/qpwebsite.s3.amazonaws.com/uploads/2022/02/a2_renta.jpg?fit=1200%2C900&ssl=1') no-repeat center center fixed;
+    background-size: cover;
+    background-color: #f8f9fa;
+}
+
+h4 {
+    color: #5430bf;
+}
+
+.label-highlight {
+    background-color: rgba(82, 119, 159, 0.8);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.card {
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo semitransparente para la tarjeta */
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.form-label i {
+    margin-right: 8px;
+    color: #007bff;
+}
+
+#btn {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+#btn:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.rounded-input {
+    border-radius: 55px;
+}
+#map {
+    width: 100%;
+    height: 400px;
+    margin-top: 10px;
+    border-radius: 25px;
+}
+
+#map {
+    height: 80vh;
+}
