@@ -9,9 +9,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="styleIndex.css">
     <link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <!-- Make sure you put this AFTER Leaflet's CSS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <style>
         #map {
             height: 400px;
@@ -21,7 +22,7 @@
 
 <body>
     <div class="container mt-5">
-        <div class="row justify-content">
+        <div class="row justify-content-center">
             <div class="col-md-6">
                 <h4 class="text-center mb-4 label-highlight">Tú mejor opción del alquiler en El Salvador</h4>
                 <div class="card shadow-lg">
@@ -95,16 +96,17 @@
                                 <div id="map"></div>
                                 <input type="hidden" id="cent" name="cent">
                             </div>
-                            <div class="text-center">
-                                <button class="btn btn-primary w-100" type="button" id="btn">Calcular precio</button>
-                                <h5 id="resultado" class="mt-3"></h5>
-                            </div>
+                            <button type="button" id="btn" class="btn btn-primary rounded-button">Calcular
+                                precio</button>
                         </form>
+                        <div id="resultado" class="mt-4"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
     <script>
         var map = L.map('map').setView([13.6929403, -89.2181911], 13);
 
@@ -126,50 +128,88 @@
 
             document.getElementById('cent').value = latlng.lat + ',' + latlng.lng;
         });
-    </script>
-    
-         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
 
-<script>
+        var modelo = null;
 
-    var modelo = null;
-    //Cargamos el modelo entrenado
-    (async () => {
-        console.log("Cargando el modelo...");
-        modelo = await tf.loadLayersModel("model.json");
-        console.log("Modelo cargado!");
-    })();
-
-    const btn = document.getElementById("btn");
-
-    btn.onclick = () => {
-        var m2 = document.getElementById('m2').value;
-        var hab = document.getElementById('hab').value;
-        var planta = document.getElementById('planta').value;
-        var ascensor = document.getElementById('ascensor').value;
-        var ext = document.getElementById('ext').value;
-        var est = document.getElementById('est').value;
-        var cent = document.getElementById('cent').value;
-
-        if (modelo != null) {
-            var tensor = tf.tensor2d([[0, parseInt(m2), parseInt(hab), parseInt(planta), parseInt(ascensor), parseInt(ext), parseInt(est), parseInt(cent)]])
-            var prediccion = modelo.predict(tensor).dataSync();
-            prediccion = Math.round(prediccion, 2)
-
-            if (prediccion < 1000) {
-                window.location.href = "soyapangoCity.html?precio=" + prediccion;
-            } else if (prediccion > 1000) {
-                window.location.href = "zonaRosaCity.html?precio=" + prediccion;
-            } else {
-                document.getElementById("resultado").innerHTML = "Precio: " + prediccion + " $ al mes";
+        (async () => {
+            try {
+                console.log("Cargando el modelo...");
+                modelo = await tf.loadLayersModel('model.json');
+                console.log("Modelo cargado!");
+            } catch (error) {
+                console.error("Error cargando el modelo:", error);
+                document.getElementById("resultado").innerHTML = "Error cargando el modelo.";
             }
-        } else {
-            document.getElementById("resultado").innerHTML = "No se puede ejecutar, hay un problema";
+        })();
+
+        const departamentosCoords = {
+            "Ahuachapán": { latMin: 13.700, latMax: 14.050, lngMin: -89.960, lngMax: -89.700 },
+            "Cabañas": { latMin: 13.830, latMax: 14.150, lngMin: -88.950, lngMax: -88.450 },
+            "Chalatenango": { latMin: 13.950, latMax: 14.400, lngMin: -89.250, lngMax: -88.900 },
+            "Cuscatlán": { latMin: 13.690, latMax: 14.030, lngMin: -89.020, lngMax: -88.800 },
+            "La Libertad": { latMin: 13.431, latMax: 13.828, lngMin: -89.669, lngMax: -89.182 },
+            "La Paz": { latMin: 13.230, latMax: 13.550, lngMin: -89.020, lngMax: -88.850 },
+            "La Unión": { latMin: 13.100, latMax: 13.570, lngMin: -88.200, lngMax: -87.750 },
+            "Morazán": { latMin: 13.480, latMax: 14.050, lngMin: -88.320, lngMax: -87.850 },
+            "San Miguel": { latMin: 13.390, latMax: 13.550, lngMin: -88.330, lngMax: -88.110 },
+            "San Salvador": { latMin: 13.637, latMax: 13.792, lngMin: -89.295, lngMax: -89.137 },
+            "San Vicente": { latMin: 13.380, latMax: 13.770, lngMin: -88.950, lngMax: -88.530 },
+            "Santa Ana": { latMin: 13.850, latMax: 14.100, lngMin: -89.680, lngMax: -89.300 },
+            "Sonsonate": { latMin: 13.400, latMax: 13.830, lngMin: -89.780, lngMax: -89.350 },
+            "Usulután": { latMin: 13.170, latMax: 13.700, lngMin: -88.630, lngMax: -88.250 }
+        };
+
+        const btn = document.getElementById("btn");
+
+        btn.onclick = () => {
+            try {
+                var m2 = document.getElementById('m2').value;
+                var hab = document.getElementById('hab').value;
+                var planta = document.getElementById('planta').value;
+                var ascensor = document.getElementById('ascensor').value;
+                var ext = document.getElementById('ext').value;
+                var est = document.getElementById('est').value;
+                var cent = document.getElementById('cent').value;
+
+                if (modelo != null) {
+                    var tensor = tf.tensor2d([[0, parseInt(m2), parseInt(hab), parseInt(planta), parseInt(ascensor), parseInt(ext), parseInt(est), parseFloat(cent.split(',')[0]), parseFloat(cent.split(',')[1])]]);
+                    var prediccion = modelo.predict(tensor).dataSync();
+                    prediccion = Math.round(prediccion, 2);
+
+                    // Obtener latitud y longitud
+                    const [lat, lng] = cent.split(',').map(Number);
+
+                    let found = false;
+                    for (const departamento in departamentosCoords) {
+                        const coords = departamentosCoords[departamento];
+                        if (lat >= coords.latMin && lat <= coords.latMax && lng >= coords.lngMin && lng <= coords.lngMax) {
+                            if (departamento === "San Salvador") {
+                                const zonaRosaCoords = { latMin: 13.6900, latMax: 13.7200, lngMin: -89.2400, lngMax: -89.2200 };
+                                if (lat >= zonaRosaCoords.latMin && lat <= zonaRosaCoords.latMax && lng >= zonaRosaCoords.lngMin && lng <= zonaRosaCoords.lngMax) {
+                                    window.location.href = "zonaRosaCity.html?precio=" + prediccion;
+                                } else {
+                                    window.location.href = `${departamento.replace(" ", "").toLowerCase()}City.html?precio=${prediccion}`;
+                                }
+                            } else {
+                                window.location.href = `${departamento.replace(" ", "").toLowerCase()}City.html?precio=${prediccion}`;
+                            }
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        document.getElementById("resultado").innerHTML = "Precio: " + prediccion + " $ al mes";
+                    }
+                } else {
+                    document.getElementById("resultado").innerHTML = "No se puede ejecutar, hay un problema";
+                }
+            } catch (error) {
+                console.error("Error durante la predicción:", error);
+                document.getElementById("resultado").innerHTML = "Error calculando el precio.";
+            }
         }
-    }
-
-</script>
-
+    </script>
 </body>
 
 </html>
